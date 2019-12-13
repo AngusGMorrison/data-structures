@@ -81,7 +81,7 @@ class DoublyLinkedList
     end
   end
 
-  def each
+  def each(&block)
     current = @head
     while current
       yield(current)
@@ -89,7 +89,7 @@ class DoublyLinkedList
     end
   end
 
-  def reverse_each
+  def reverse_each(&block)
     current = @tail
     while current
       yield(current)
