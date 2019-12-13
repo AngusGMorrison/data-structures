@@ -4,8 +4,7 @@ require_relative './linked_list_errors'
 class LinkedList
   include LinkedListErrors
 
-  attr_accessor :head, :tail
-  attr_reader :length
+  attr_reader :head, :tail, :length
 
   def initialize
     @head = nil
@@ -15,32 +14,32 @@ class LinkedList
 
   def insert(data)
     node = Node.new(data)
-    if head
-      tail.next = node
+    if @head
+      @tail.next = node
     else
-      head = node
+      @head = node
     end
-    tail = node
-    length += 1
+    @tail = node
+    @length += 1
   end
 
   def delete(node)
-    node == head ? delete_head : delete_from_body(node)
-    length -= 1
+    node == @head ? delete_head : delete_from_body(node)
+    @length -= 1
   rescue NodeNotFound => message
     puts message
   end
 
   private def delete_head
-    if head.next
-      head = head.next
+    if @head.next
+      @head = @head.next
     else
-      head = tail = nil
+      @head = @tail = nil
     end 
   end
 
   private def delete_from_body(node)
-    preceding_node = head
+    preceding_node = @head
     while preceding node && preceding_node.next != node
       preceding_node = preceding_node.next
     end
@@ -52,26 +51,26 @@ class LinkedList
     unless list.is_a?(LinkedList)
       raise ArgumentError("Expected a linked list, received #{list.class.name}")
     end
-    tail.next = list.head
-    length += list.length
+    @tail.next = list.head
+    @length += list.length
   end
 
   def clear
-    while length > 0
+    while @length > 0
       delete(head)
     end
   end
 
-  def find(&block)
-    current = head
+  def find(&predicate)
+    current = @head
     while current
       return current if yield(current)
       current = current.next
     end
   end
 
-  def each(&block)
-    current = head
+  def each(&predicate)
+    current = @head
     while current
       yield(current)
       current = current.next
