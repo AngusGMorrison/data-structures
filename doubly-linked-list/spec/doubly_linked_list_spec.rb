@@ -1,10 +1,10 @@
 require 'rspec'
-require_relative '../linked_list'
+require_relative '../doubly_linked_list'
 
-RSpec.describe LinkedList do
+RSpec.describe DoublyLinkedList do
 
   def n_item_list(n)
-    list = LinkedList.new
+    list = DoublyLinkedList.new
     for i in 1..n do
       list.insert(i)
     end
@@ -13,17 +13,17 @@ RSpec.describe LinkedList do
 
   context 'initialization' do
     it 'is initialized with length 0' do
-      list = LinkedList.new
+      list = DoublyLinkedList.new
       expect(list.length).to eq(0)
     end
 
     it 'is initialized with head nil' do
-      list = LinkedList.new
+      list = DoublyLinkedList.new
       expect(list.head).to be(nil)
     end
 
     it 'is initialized with tail nil' do
-      list = LinkedList.new
+      list = DoublyLinkedList.new
       expect(list.tail).to be(nil)
     end
   end
@@ -95,7 +95,7 @@ RSpec.describe LinkedList do
     end
 
     it 'returns the first node for which the block evaluates to true' do
-      list = LinkedList.new
+      list = DoublyLinkedList.new
       2.times { list.insert(1) }
       expect(list.find { |node| node.data == 1}).to eq(list.head)
     end
@@ -144,6 +144,14 @@ RSpec.describe LinkedList do
       list1 = n_item_list(3)
       list2 = list1.map { |value| value * 2 }
       expect(list2.to_a).to eq([2, 4, 6])
+    end
+  end
+
+  context 'reverse_map' do
+    it 'returns a reversed copy of the list if no block is given' do
+      list1 = n_item_list(3)
+      list2 = list1.map(reverse: true)
+      expect(list2.to_a).to eq(list1.to_a.reverse)
     end
   end
 
