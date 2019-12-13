@@ -125,6 +125,13 @@ RSpec.describe LinkedList do
     end
   end
 
+  context 'to_a' do
+    it 'returns the list\'s values in an array' do
+      list = n_item_list(3)
+      expect(list.to_a).to eq([1, 2, 3])
+    end
+  end
+
   context 'map' do
     it 'returns a copy of the list if no block is given' do
       list1 = n_item_list(3)
