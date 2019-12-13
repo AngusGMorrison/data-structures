@@ -22,6 +22,7 @@ class DoublyLinkedList
     end
     @tail = node
     @length += 1
+    node
   end
 
   def delete(node)

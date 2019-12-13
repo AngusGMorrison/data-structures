@@ -17,6 +17,7 @@ class LinkedList
     @head ? @tail.next = node : @head = node
     @tail = node
     @length += 1
+    node
   end
 
   def delete(node)
