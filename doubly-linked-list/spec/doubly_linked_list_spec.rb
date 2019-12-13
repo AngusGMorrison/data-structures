@@ -31,12 +31,12 @@ RSpec.describe DoublyLinkedList do
   context 'insert' do
     it 'allows a new node to become the head and tail of an empty list' do
       list = n_item_list(1)
-      expect(list.head).to eq(list.tail).and have_attributes(data: 1)
+      expect(list.head).to eq(list.tail).and have_attributes(data: 1, next: nil, prev: nil)
     end
 
     it 'allows new nodes to be added to the end of an existing list' do
       list = n_item_list(2)
-      expect(list.tail).to have_attributes(data: 2)
+      expect(list.tail).to have_attributes(data: 2, next: nil, prev: list.head)
     end
 
     it 'increases length correctly as the list grows' do
@@ -57,6 +57,16 @@ RSpec.describe DoublyLinkedList do
       original_tail = list.tail
       list.delete(list.head)
       expect(list.head).to eq(original_tail)
+    end
+
+    it 'correctly connects adjacent nodes on deletion' do
+      list = DoublyLinkedList.new
+      node1 = list.insert(1)
+      node2 = list.insert(2)
+      node3 = list.insert(3)
+      list.delete(node2)
+      expect(node1.next).to eq(node3)
+      expect(node3.prev).to eq(node1)
     end
   end
 

@@ -27,7 +27,7 @@ class DoublyLinkedList
 
   def delete(node)
     # Ordinarily an O(1) operation, but the need to verify that the node is part
-    # of the list makes it asn O(n) operation
+    # of the list makes it an O(n) operation
     raise NodeNotFound unless find { |existing_node| existing_node == node }
     node == @head ? delete_head : delete_from_body(node)
     @length -= 1
@@ -47,7 +47,7 @@ class DoublyLinkedList
     preceding_node = node.prev
     next_node = node.next
     preceding_node.next = next_node
-    next_node.preceding_node = preceding_node if next_node
+    next_node.prev = preceding_node if next_node
   end
 
   def concat(list)
