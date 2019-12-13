@@ -139,26 +139,40 @@ RSpec.describe DoublyLinkedList do
 
     it 'returns nil if a matching node is not found' do
       list = n_item_list(5)
-      expect(list.find { |node| node.data == 6 }).to be(nil)
+      expect(list.find_last { |node| node.data == 6 }).to be(nil)
     end
 
     it 'raises a LocalJumpError if no block is given' do
       list = n_item_list(2)
-      expect { list.find }.to raise_error(LocalJumpError)
+      expect { list.find_last }.to raise_error(LocalJumpError)
     end
   end
 
   context 'each' do
     it 'iterates over each node in the list' do
       list = n_item_list(5)
-      count = 0
-      list.each { |node| count += 1 }
-      expect(count).to eq(5)
+      tracker = []
+      list.each { |node| tracker << node.data }
+      expect(tracker).to eq([1, 2, 3, 4, 5])
     end
 
     it 'raises a LocalJumpError if no block is given' do
       list = n_item_list(1)
       expect { list.each }.to raise_error(LocalJumpError)
+    end
+  end
+
+  context 'reverse_each' do
+    it 'iterates over each node in the list in reverse order' do
+      list = n_item_list(5)
+      tracker = []
+      list.reverse_each { |node| tracker << node.data }
+      expect(tracker).to eq([5, 4, 3, 2, 1])
+    end
+
+    it 'raises a LocalJumpError if no block is given' do
+      list = n_item_list(1)
+      expect { list.reverse_each }.to raise_error(LocalJumpError)
     end
   end
 
@@ -182,14 +196,19 @@ RSpec.describe DoublyLinkedList do
       list2 = list1.map { |value| value * 2 }
       expect(list2.to_a).to eq([2, 4, 6])
     end
-  end
 
-  context 'reverse_map' do
-    it 'returns a reversed copy of the list if no block is given' do
+    it 'returns a reversed copy of the list if the reverse flag is passed and no block is given' do
       list1 = n_item_list(3)
       list2 = list1.map(reverse: true)
       expect(list2.to_a).to eq(list1.to_a.reverse)
     end
+
+    it 'returns a reversed list derived from the receiver and block if the reversed flag is passed' do
+      list1 = n_item_list(3)
+      list2 = list1.map(reverse: true) { |value| value * 2 }
+      expect(list2.to_a).to eq([6, 4, 2])
+    end
   end
+
 
 end
