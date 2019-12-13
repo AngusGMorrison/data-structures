@@ -14,11 +14,7 @@ class LinkedList
 
   def insert(data)
     node = Node.new(data)
-    if @head
-      @tail.next = node
-    else
-      @head = node
-    end
+    @head ? @tail.next = node : @head = node
     @tail = node
     @length += 1
   end
@@ -40,7 +36,7 @@ class LinkedList
 
   private def delete_from_body(node)
     preceding_node = @head
-    while preceding node && preceding_node.next != node
+    while preceding_node && preceding_node.next != node
       preceding_node = preceding_node.next
     end
     raise NodeNotFound unless preceding_node.next
@@ -49,9 +45,10 @@ class LinkedList
 
   def concat(list)
     unless list.is_a?(LinkedList)
-      raise ArgumentError("Expected a linked list, received #{list.class.name}")
+      raise ArgumentError.new("Expected a linked list, received #{list.class.name}")
     end
     @tail.next = list.head
+    @tail = list.tail
     @length += list.length
   end
 
@@ -77,7 +74,18 @@ class LinkedList
     end
   end
 
-  def print
-    each { |node| puts node.data }
+  def to_a
+    array = []
+    each { |node| array << node.data }
+    array
+  end
+
+  def map(&block)
+    mapped = LinkedList.new
+    each do |node|
+      value = block_given? ? yield(node.data) : node.data
+      mapped.insert(value)
+    end
+    mapped
   end
 end
