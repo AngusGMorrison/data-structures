@@ -66,7 +66,7 @@ class LinkedList
     end
   end
 
-  def each
+  def each(&block)
     current = @head
     while current
       yield(current)
