@@ -4,10 +4,4 @@ module LinkedListErrors
       "Node not found"
     end
   end
-
-  class BlockNotGiven < ArgumentError
-    def message
-      "Expected to receive a block"
-    end
-  end
 end

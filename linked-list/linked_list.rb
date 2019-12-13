@@ -63,16 +63,14 @@ class LinkedList
   end
 
   def find(&block)
-    unless block_given? raise BlockNotGiven
     current = head
     while current
-      return current if block.call(current)
+      return current if yield(current)
       current = current.next
     end
   end
 
   def each(&block)
-    unless block_given? raise BlockNotGiven
     current = head
     while current
       yield(current)
