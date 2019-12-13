@@ -79,12 +79,16 @@ RSpec.describe DoublyLinkedList do
 
     it 'joins the second list to the tail of the receiver' do
       list1 = n_item_list(2)
+      original_list1_tail = list1.tail
       list2 = n_item_list(3)
+      original_list2_head = list2.head
+
       list1.concat(list2)
-      expect(list1.tail).to eq(list2.tail)
+      expect(original_list1_tail.next).to eq(original_list2_head)
+      expect(original_list2_head.prev).to eq(original_list1_tail)
     end
 
-    it 'raises an ArgumentError if the argument is not a LinkedList' do
+    it 'raises an ArgumentError if the argument is not a DoublyLinkedList' do
       list = n_item_list(2)
       expect { list.concat(1) }.to raise_error(ArgumentError)
     end
@@ -108,6 +112,29 @@ RSpec.describe DoublyLinkedList do
       list = DoublyLinkedList.new
       2.times { list.insert(1) }
       expect(list.find { |node| node.data == 1}).to eq(list.head)
+    end
+
+    it 'returns nil if a matching node is not found' do
+      list = n_item_list(5)
+      expect(list.find { |node| node.data == 6 }).to be(nil)
+    end
+
+    it 'raises a LocalJumpError if no block is given' do
+      list = n_item_list(2)
+      expect { list.find }.to raise_error(LocalJumpError)
+    end
+  end
+
+  context 'find_last' do
+    it 'returns a node for which the block evaluates to true' do
+      list = n_item_list(2)
+      expect(list.find_last { |node| node.data == 2 }).to eq(list.tail)
+    end
+
+    it 'returns the last node for which the block evaluates to true' do
+      list = DoublyLinkedList.new
+      2.times { list.insert(1) }
+      expect(list.find_last { |node| node.data == 1 }).to eq(list.tail)
     end
 
     it 'returns nil if a matching node is not found' do
