@@ -12,7 +12,9 @@ class DoublyLinkedList
     @length = 0
   end
 
+  
   def insert(data)
+    # O(1)
     node = Node.new(data)
     if @head
       node.prev = @tail
@@ -51,6 +53,7 @@ class DoublyLinkedList
   end
 
   def concat(list)
+    # O(1)
     unless list.is_a?(DoublyLinkedList)
       raise ArgumentError.new("Expected a linked list, received #{list.class.name}")
     end
@@ -61,12 +64,14 @@ class DoublyLinkedList
   end
 
   def clear
+    # O(n)
     while @length > 0
       delete(head)
     end
   end
 
   def find(&predicate)
+    # O(n)
     current = @head
     while current
       return current if yield(current)
@@ -75,6 +80,7 @@ class DoublyLinkedList
   end
 
   def find_last(&predicate)
+    # O(n)
     current = @tail
     while current
       return current if yield(current)
@@ -83,6 +89,7 @@ class DoublyLinkedList
   end
 
   def each(&block)
+    # O(n)
     current = @head
     while current
       yield(current)
@@ -91,6 +98,7 @@ class DoublyLinkedList
   end
 
   def reverse_each(&block)
+    # O(n)
     current = @tail
     while current
       yield(current)
@@ -99,12 +107,14 @@ class DoublyLinkedList
   end
 
   def to_a
+    # O(n)
     array = []
     each { |node| array << node.data }
     array
   end
 
   def map(reverse: false, &block)
+    # O(n)
     mapped = DoublyLinkedList.new
     mapper = Proc.new do |node|
       value = block_given? ? yield(node.data) : node.data
