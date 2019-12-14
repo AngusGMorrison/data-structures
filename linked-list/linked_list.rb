@@ -13,6 +13,7 @@ class LinkedList
   end
 
   def insert(data)
+    #O(1)
     node = Node.new(data)
     @head ? @tail.next = node : @head = node
     @tail = node
@@ -21,6 +22,7 @@ class LinkedList
   end
 
   def delete(node)
+    #O(n)
     node == @head ? delete_head : delete_from_body(node)
     @length -= 1
   rescue NodeNotFound => message
@@ -45,6 +47,7 @@ class LinkedList
   end
 
   def concat(list)
+    #O(1)
     unless list.is_a?(LinkedList)
       raise ArgumentError.new("Expected a linked list, received #{list.class.name}")
     end
@@ -54,12 +57,14 @@ class LinkedList
   end
 
   def clear
+    #O(n)
     while @length > 0
       delete(head)
     end
   end
 
   def find(&predicate)
+    #O(n)
     current = @head
     while current
       return current if yield(current)
@@ -68,6 +73,7 @@ class LinkedList
   end
 
   def each(&block)
+    #O(n)
     current = @head
     while current
       yield(current)
@@ -76,12 +82,14 @@ class LinkedList
   end
 
   def to_a
+    #O(n)
     array = []
     each { |node| array << node.data }
     array
   end
 
   def map(&block)
+    #O(n)
     mapped = LinkedList.new
     each do |node|
       value = block_given? ? yield(node.data) : node.data
