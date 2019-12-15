@@ -79,6 +79,7 @@ class LinkedList
       yield(current)
       current = current.next
     end
+    self
   end
 
   def to_a
