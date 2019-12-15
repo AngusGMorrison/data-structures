@@ -95,6 +95,7 @@ class DoublyLinkedList
       yield(current)
       current = current.next
     end
+    self
   end
 
   def reverse_each(&block)
@@ -104,6 +105,7 @@ class DoublyLinkedList
       yield(current)
       current = current.prev
     end
+    self
   end
 
   def to_a
