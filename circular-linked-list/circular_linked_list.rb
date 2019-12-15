@@ -36,18 +36,6 @@ class CircularLinkedList
     new_node 
   end
 
-  def last_node
-    @current = @head
-    for i in 0...(@length - 1)
-      move_next
-    end
-    return @current
-  end
-
-  private def move_next
-    @current = @current.next
-  end
-
   def delete(node)
     # O(n)
     raise NodeNotFound unless find { |existing_node| existing_node == node }  
@@ -77,23 +65,33 @@ class CircularLinkedList
     @length -= 1
   end
 
-  def clear
-    # O(n)
-    while @length > 0
-      delete(@head)
-    end
-  end
-
   def concat(input_list)
+    # O(1)
     unless input_list.is_a?(CircularLinkedList)
       raise ArgumentError.new("Expected a CircularLinkedList, received #{input_list.class.name}")
     end
-    # p last_node
     last_node.next = input_list.head
     last_input_node = input_list.last_node
     last_input_node.next = @head
     @length += input_list.length
     self
+  end
+
+  def last_node
+    @current = @head
+    for i in 0...(@length - 1)
+      move_next
+    end
+    return @current
+  end
+
+  def find(&predicate)
+    # O(n)
+    @current = @head
+    loop do
+      return @current if yield(@current)
+      return nil if move_next == @head
+    end
   end
 
   def each(&block)
@@ -106,6 +104,10 @@ class CircularLinkedList
     self
   end
 
+  private def move_next
+    @current = @current.next
+  end
+
   def to_a
     # O(n)
     array = []
@@ -114,6 +116,7 @@ class CircularLinkedList
   end
 
   def map(&block)
+    # O(n)
     new_list = CircularLinkedList.new
     mapper = nil
     if block_given?
@@ -125,17 +128,11 @@ class CircularLinkedList
     new_list
   end
 
-  def find(&predicate)
+  def clear
     # O(n)
-    @current = @head
-    loop do
-      return @current if yield(@current)
-      return nil if move_next == @head
+    while @length > 0
+      delete(@head)
     end
   end
 
-  
-
-  end
-
-return
+end
