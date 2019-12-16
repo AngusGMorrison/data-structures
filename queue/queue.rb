@@ -1,3 +1,5 @@
+require_relative './node'
+
 class Queue
   attr_reader :head, :tail, :length
 
