@@ -50,15 +50,18 @@ RSpec.describe HashTable do
     end
 
     it 'rehashes the table when max load factor is exceeded' do
-      table = n_item_table(size_before_first_rehash)
-      expect(table.array.length).to eq(HashTable::PRIMES[0])
-      table.insert(test_key, test_value)
-      expect(table.array.length).to eq(HashTable::PRIMES[1])
+      hash = n_item_table(size_before_first_rehash)
+      expect(hash.table.length).to eq(HashTable::PRIMES[0])
+      hash.insert(test_key, test_value)
+      expect(hash.table.length).to eq(HashTable::PRIMES[1])
     end
 
     it 'retrieves a value for a given key after a rehash has taken place' do
-      table = n_item_table(size_before_first_rehash + 1)
-      expect(table.get('1')).to eq(1)
+      hash = n_item_table(size_before_first_rehash)
+      expect(hash.get('1')).to eq(1)
+      hash = n_item_table(size_before_first_rehash + 1)
+      p hash.entries
+      expect(hash.get('1')).to eq(1)
     end
   end
 
