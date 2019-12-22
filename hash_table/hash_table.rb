@@ -28,6 +28,7 @@ class HashTable
   end
 
   def insert(key, value)
+    # ~O(1)
     node = find_node(key)
     node ? update_node(node, value) : create_node(key, value)
   end
@@ -53,6 +54,7 @@ class HashTable
   end
 
   private def rehash
+    # O(n)
     raise HashTableFull if @rehashes >= MAX_REHASHES
     @rehashes += 1
     @bucket_count = PRIMES[@rehashes]
@@ -71,11 +73,13 @@ class HashTable
   end
 
   def get(key)
+    # ~O(1)
     node = find_node(key)
     node ? node.data[1] : nil
   end
 
   def delete(key)
+    # ~O(1)
     node = find_node(key)
     index = get_index_from_key(key)
     node ? delete_node(@table[index], node) : nil  
@@ -102,6 +106,7 @@ class HashTable
   end
 
   def entries
+    # O(n)
     return extract
   end
 
