@@ -4,10 +4,4 @@ module BinaryTreeErrors
       "Can't override an existing child node"
     end
   end
-
-  class NilMerge < ArgumentError
-    def message
-      "Can't merge nil tree"
-    end
-  end
 end

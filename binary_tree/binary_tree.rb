@@ -3,12 +3,13 @@ require_relative './binary_tree_errors'
 
 class BinaryTree
   include BinaryTreeErrors
-  
-  attr_reader :root, :size
 
-  def initialize(root)
-    @root = root
-    @size = 0
+  attr_reader :root
+  attr_accessor :size
+
+  def initialize(root_data=nil)
+    @root = Node.new(nil, root_data)
+    @size = 1
   end
 
   def insert_left(node, data)
@@ -46,15 +47,17 @@ class BinaryTree
       node.right = nil
       @size -= 1
     end
+    node
   end
 
   def self.merge(left, right, data=nil)
     # O(1)
-    raise NilMerge unless left && right
-    new_root = Node.new(nil, data)
-    new_root.left = left.root
-    new_root.right = right.root
-    merged_tree = BinaryTree.new(new_root)
+    unless left.is_a?(BinaryTree) && right.is_a?(BinaryTree)
+      raise ArgumentError.new("Expected two binary tress")
+    end
+    merged_tree = BinaryTree.new(data)
+    merged_tree.root.left = left.root
+    merged_tree.root.right = right.root
     merged_tree.size = left.size + right.size
     merged_tree
   end
