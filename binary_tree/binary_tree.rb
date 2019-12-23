@@ -3,6 +3,8 @@ require_relative './binary_tree_errors'
 
 class BinaryTree
   include BinaryTreeErrors
+  
+  attr_reader :root, :size
 
   def initialize(root)
     @root = root
@@ -14,7 +16,7 @@ class BinaryTree
     raise NodeOverride if node.left
     node.left = Node.new(node, data)
     @size += 1
-    node.left.data
+    node.left
   end
 
   def insert_right(node, data)
@@ -22,7 +24,7 @@ class BinaryTree
     raise NodeOverride if node.right
     node.right = Node.new(node, data)
     @size += 1
-    node.right.data
+    node.right
   end
 
   def remove_left(node)
