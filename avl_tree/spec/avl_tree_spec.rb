@@ -76,6 +76,7 @@ RSpec.describe AVLTree do
     tree.insert(3, "three")
     tree.insert(9, "nine")
 
+
     it 'returns the node with the given key' do
       node = tree.search(9)
       expect(node.data).to eq("nine");
@@ -84,6 +85,28 @@ RSpec.describe AVLTree do
     it 'returns nil if the node is not found' do
       node = tree.search(11)
       expect(node).to be(nil)
+    end
+
+    it 'returns nil if the node is deleted' do
+      tree.remove(3)
+      node = tree.search(3)
+      expect(node).to be(nil)
+    end
+  end
+
+  context 'remove' do
+    tree = AVLTree.new
+    tree.insert(6, "six")
+    tree.insert(3, "three")
+    tree.insert(9, "nine")
+
+    it 'takes a key to remove and marks the corresponding node as deleted' do
+      node = tree.remove(3)
+      expect(node.deleted).to be(true)
+    end
+
+    it 'returns nil if the key isn\'t found in the tree' do
+      expect(tree.remove(20)).to be(nil)
     end
   end
 
