@@ -110,7 +110,7 @@ class AVLTree
   def search(key)
     # O(log2n)
     node = search_from_node(@root, key)
-    node unless node.deleted
+    node unless node == nil || node.deleted
   end
 
   def search_from_node(node, key)

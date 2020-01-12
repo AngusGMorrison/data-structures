@@ -70,4 +70,21 @@ RSpec.describe AVLTree do
     end
   end
 
+  context 'search' do
+    tree = AVLTree.new
+    tree.insert(6, "six")
+    tree.insert(3, "three")
+    tree.insert(9, "nine")
+
+    it 'returns the node with the given key' do
+      node = tree.search(9)
+      expect(node.data).to eq("nine");
+    end
+
+    it 'returns nil if the node is not found' do
+      node = tree.search(11)
+      expect(node).to be(nil)
+    end
+  end
+
 end
