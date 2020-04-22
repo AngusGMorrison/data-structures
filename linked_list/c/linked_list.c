@@ -12,29 +12,6 @@ enum {
     NULL_NODE
 };
 
-int main() {
-    list *test_list = create_list();
-
-    insert(test_list, 5);
-    insert(test_list, 3);
-    insert(test_list, 10);
-    insert(test_list, 1);
-    insert(test_list, 4);
-
-    print_list(test_list);
-    printf("Size: %i\n\n", test_list->size);
-
-    node *removed = remove_node(test_list, 4);
-    printf("Removed node: %i\n", removed->data);
-    printf("Size: %i\n", test_list->size);
-    removed = remove_node(test_list, 100);
-    printf("Remove 100 is null? %i\n\n", removed == NULL);
-
-    reverse(test_list);
-    print_list(test_list);
-
-}
-
 /* Return a newly created list with size 0. */
 list *create_list() {
     list *list_p = malloc(sizeof(list));

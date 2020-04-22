@@ -1,6 +1,8 @@
 #ifndef LINKED_LIST_H
 #define LINKED_LIST_H
 
+#include "../../lib/c/uthash/uthash.h"
+
 typedef struct list {
     struct node *head;
     int size;
@@ -9,6 +11,7 @@ typedef struct list {
 typedef struct node {
     struct node *next;
     int data;
+    UT_hash_handle hh;
 } node;
 
 list *create_list();
