@@ -16,6 +16,7 @@ typedef struct node {
 
 list *create_list();
 node *insert(list *list_p, int value);
+list *insert_multiple(list *list_p, int count, ...);
 node *create_node(int value);
 node *find_node(list *list_p, int value);
 node *remove_node(list *list_p, int value);

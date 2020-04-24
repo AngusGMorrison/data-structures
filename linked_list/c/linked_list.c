@@ -51,6 +51,24 @@ node *insert(list *list_p, int value) {
     return new_p;
 }
 
+list *insert_multiple(list *list_p, int count, ...) {
+    if (count < 1) {    // No data to add
+        return list_p;
+    }
+
+    va_list args;
+    int data;
+    va_start(args, count);
+
+    while (count--) {
+        data = va_arg(args, int);
+        insert(list_p, data);
+    }
+    va_end(args);
+
+    return list_p;
+}
+
 /* Return a newly created node. */
 node *create_node(int value) {
     node *new_p = malloc(sizeof(node));
