@@ -4,7 +4,6 @@
  * middle) of a singly linked list, given only access to that node.
  */
 
-#include <stdio.h>
 #include "linked_list.h"
 
 void delete_middle_node(node *nd);
