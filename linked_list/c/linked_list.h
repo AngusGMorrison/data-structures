@@ -3,6 +3,11 @@
 
 #include "../../lib/c/uthash/uthash.h"
 
+enum {
+    NULL_LIST = 1,
+    NULL_NODE
+};
+
 typedef struct list {
     struct node *head;
     int size;

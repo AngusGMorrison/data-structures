@@ -7,11 +7,6 @@
 #include <stdlib.h>
 #include "linked_list.h"
 
-enum {
-    NULL_LIST = 1,
-    NULL_NODE
-};
-
 /* Return a newly created list with size 0. */
 list *create_list() {
     list *list_p = malloc(sizeof(list));
