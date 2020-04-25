@@ -24,7 +24,7 @@ list *create_list() {
 
 /* Iterate through the list until the correct position for value is found, then
    insert a new node to hold it. Returns the new node. */
-node *insert(list *list_p, int value) {
+node *insert_sorted(list *list_p, int value) {
     if (list_p == NULL) {
         error("insert: list is NULL\n", NULL_LIST);
     }
@@ -51,14 +51,37 @@ node *insert(list *list_p, int value) {
     return new_p;
 }
 
-list *insert_multiple(list *list_p, int count, ...) {
+/* Attach new node to the end of the list. Returns the new node */
+node *insert_unsorted(list *list_p, int value) {
+    if (list_p == NULL) {
+        error("insert: list is NULL\n", NULL_LIST);
+    }
+
+    node *new_p = create_node(value);
+    node *current = list_p->head;
+    if (current == NULL) {
+        list_p->head = new_p;
+        list_p->size++;
+        return new_p;
+    }
+
+    // Find the end of the list
+    for ( ; current->next != NULL; current = current->next)
+        ;
+
+    current->next = new_p;
+    list_p->size++;
+    return new_p;
+}
+
+list *insert_multiple(list *list_p, int count, node *(*insert)(list *, int), ...) {
     if (count < 1) {    // No data to add
         return list_p;
     }
 
     va_list args;
     int data;
-    va_start(args, count);
+    va_start(args, insert);
 
     while (count--) {
         data = va_arg(args, int);

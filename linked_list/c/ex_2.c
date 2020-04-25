@@ -13,7 +13,7 @@ node *kth_to_last_iterative_optimal(list *list_p, int k);
 
 int main() {
     list *test_list = create_list();
-    insert_multiple(test_list, 5, 1, 2, 3, 4, 5);
+    insert_multiple(test_list, 5, insert_sorted, 1, 2, 3, 4, 5);
 
     node *kth_last = kth_to_last_iterative(test_list, 2);
     printf("%i\n", kth_last->data);

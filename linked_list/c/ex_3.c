@@ -10,7 +10,7 @@ void delete_middle_node(node *nd);
 
 int main() {
     list *test_list = create_list();
-    insert_multiple(test_list, 5, 1, 2, 3, 4, 5);
+    insert_multiple(test_list, 5, insert_sorted, 1, 2, 3, 4, 5);
     node *middle = find_node(test_list, 3);
     delete_middle_node(middle);
     print_list(test_list);

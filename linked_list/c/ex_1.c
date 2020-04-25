@@ -13,7 +13,7 @@ void remove_dups_unbuffered(list *list_p);
 
 int main() {
     list *test_list = create_list();
-    insert_multiple(test_list, 11, 1, 1, 1, 4, 5, 7, 7, 2, 3, 3, 3);
+    insert_multiple(test_list, 11, insert_sorted, 1, 1, 1, 4, 5, 7, 7, 2, 3, 3, 3);
     remove_dups_unbuffered(test_list);
     print_list(test_list);
 }
