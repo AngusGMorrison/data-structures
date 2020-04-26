@@ -5,7 +5,9 @@
 
 enum {
     NULL_LIST = 1,
-    NULL_NODE
+    NULL_NODE,
+    STACK_OVERFLOW,
+    STACK_EMPTY
 };
 
 typedef struct list {
