@@ -93,6 +93,7 @@ node *create_node(int value) {
     if (new_p == NULL) {
         error("insert: couldn't allocate node\n", NULL_NODE);
     }
+    new_p->address = new_p;
     new_p->next = NULL;
     new_p->data = value;
     return new_p;
@@ -140,6 +141,24 @@ node *remove_node(list *list_p, int value) {
     }
 
     return NULL;
+}
+
+list *append(list *list_p, list *to_append) {
+    if (list_p == NULL) {
+        error("append_node: list is NULL\n", NULL_LIST);
+    }
+
+    node *current = list_p->head;
+    if (current == NULL) {
+        list_p->head = to_append->head; 
+    } else {
+        for ( ; current->next != NULL; current = current->next)
+            ;
+        current->next = to_append->head;    
+    }
+
+    list_p->size += to_append->size;
+    return list_p;
 }
 
 void reverse(list *list_p) {
