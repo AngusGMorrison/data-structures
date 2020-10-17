@@ -81,6 +81,15 @@ func TestPutGet(t *testing.T) {
 		assertGot(tc, t)
 	})
 
+	t.Run("updates existing entries with matching keys", func(t *testing.T) {
+		h := New()
+		h.Put(key, "don't want")
+		h.Put(key, val)
+		got, ok := h.Get(key)
+		tc := &testCase{key, val, got, ok}
+		assertGot(tc, t)
+	})
+
 	t.Run("rehashes when loadFactor is exceeded", func(t *testing.T) {
 		h := newOneBucketHMap()
 		loadFactor := loadFactorNum / loadFactorDen
@@ -94,6 +103,10 @@ func TestPutGet(t *testing.T) {
 			t.Errorf("wanted hmap to rehash with %d buckets; got %d bucket(s)",
 				wantNBuckets, gotNBuckets)
 		}
+
+		got, ok := h.Get("0")
+		tc := &testCase{"0", "0", got, ok}
+		assertGot(tc, t)
 	})
 
 	t.Run("returns (\"\", false) when entry is not found", func(t *testing.T) {
