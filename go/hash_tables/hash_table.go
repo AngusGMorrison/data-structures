@@ -92,3 +92,22 @@ func (h *hmap) Get(key string) (string, bool) {
 	}
 	return "", false
 }
+
+func (h *hmap) Delete(key string) {
+	idx := h.hashToIndex(key)
+	var prev *entry
+	for cur := h.buckets[idx]; cur != nil; prev, cur = cur, cur.next {
+		if cur.key == key {
+			if prev == nil {
+				// Head of list
+				h.buckets[idx] = cur.next
+			} else {
+				prev.next = cur.next
+			}
+
+			h.nitems--
+			return
+		}
+
+	}
+}

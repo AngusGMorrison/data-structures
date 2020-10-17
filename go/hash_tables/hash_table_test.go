@@ -120,3 +120,68 @@ func TestPutGet(t *testing.T) {
 		}
 	})
 }
+
+type deleteTestCase struct {
+	h         *hmap
+	key       string
+	wantItems int
+}
+
+func assertDelete(tc *deleteTestCase, t *testing.T) {
+	tc.h.Delete(tc.key)
+
+	if _, ok := tc.h.Get(tc.key); ok {
+		t.Errorf("d.Delete(%q) failed, got ok == true", tc.key)
+	}
+
+	if tc.h.nitems != tc.wantItems {
+		t.Errorf("got %d items in hmap, want %d", tc.h.nitems, tc.wantItems)
+	}
+}
+
+func TestDelete(t *testing.T) {
+	key := "key"
+	val := "val"
+
+	t.Run("deletes matching key at head of list", func(t *testing.T) {
+		h := newOneBucketHMap()
+		h.Put(key, val)
+		tc := &deleteTestCase{h, key, 0}
+		assertDelete(tc, t)
+	})
+
+	t.Run("deletes matching key at tail of list", func(t *testing.T) {
+		h := newOneBucketHMap()
+		h.Put("head", "node")
+		h.Put(key, val)
+		tc := &deleteTestCase{h, key, 1}
+		assertDelete(tc, t)
+	})
+
+	t.Run("deletes matching key in middle of list", func(t *testing.T) {
+		h := newOneBucketHMap()
+		h.Put("head", "node")
+		h.Put(key, val)
+		h.Put("tail", "node")
+		tc := &deleteTestCase{h, key, 2}
+		assertDelete(tc, t)
+
+		if _, ok := h.Get("tail"); !ok {
+			t.Errorf("tail node not found after middle node deletion")
+		}
+	})
+
+	t.Run("has no effect when key is not found", func(t *testing.T) {
+		h := New()
+		h.Put(key, val)
+		h.Delete("unknown")
+
+		if h.nitems != 1 {
+			t.Errorf("got %d items, want 1", h.nitems)
+		}
+
+		if _, ok := h.Get(key); !ok {
+			t.Errorf("want d.Get(%q) ok == true, got ok == false", key)
+		}
+	})
+}
