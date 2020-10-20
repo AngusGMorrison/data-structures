@@ -13,6 +13,8 @@ const charsetLen = 256
 // be required to create a []rune from the input, giving us O(n) space
 // complexity.
 //
+// Upper and lowercase letters are treated as distinct characters.
+//
 // Time complexity: O(n^2)
 // Space complexity: O(1)
 func AllUniqueCharsBruteForce(input string) bool {
@@ -36,6 +38,8 @@ func AllUniqueCharsBruteForce(input string) bool {
 // most effective when the charset is reasonably sized. Where the size of the
 // charset is likely to outstrip the length of most input strings (e.g. Unicode)
 // a map may be more appropriate.
+//
+// Upper and lowercase letters are treated as distinct characters.
 //
 // Time complexity: O(n)
 // Space complexity: O(1)
