@@ -5,6 +5,18 @@ package ctci
 // Given two strings, write a function to check if they are one edit (or zero
 // edits) away.
 
+// MaxOneAway breaks down what it means to replace, insert or delete a single
+// character. It first checks the length of each string to eliminate a whole class
+// of disallowed changes. Based on difference in length, it then validates
+// the strings character by character to ensure that no more than one
+// substitution or shift has occurred.
+//
+// This could be done in a single function, but the resulting code requires
+// detection of the sorting string, maintaining two index variables, and
+// multiple length checks. Ultimately, it feels less clear.
+//
+// Time complexity: O(n)
+// Space complexity: O(1)
 func MaxOneAway(s1, s2 string) bool {
 	switch len(s2) - len(s1) {
 	case 0:
