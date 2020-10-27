@@ -40,14 +40,14 @@ func (n *Node) Delete(data int) *Node {
 	return n
 }
 
-func (n *Node) GetIndex(i int) (int, error) {
+func (n *Node) GetIndex(idx int) (int, error) {
 	cur := n
-	for ; i > 0 && cur != nil; i-- {
+	for i := idx; i > 0 && cur != nil; i-- {
 		cur = cur.Next
 	}
 
 	if cur == nil {
-		return -1, fmt.Errorf("index %d out of bounds", i)
+		return -1, fmt.Errorf("index %d out of bounds", idx)
 	}
 	return cur.Data, nil
 }
