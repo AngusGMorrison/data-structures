@@ -19,6 +19,7 @@ import "errors"
 // Space complexity: O(1)
 func (s *SNode) KthToLastIterative(k uint) (int, error) {
 	if k == 0 {
+		// Slow runner will fall off end of list.
 		return 0, ErrKOutOfBounds
 	}
 
