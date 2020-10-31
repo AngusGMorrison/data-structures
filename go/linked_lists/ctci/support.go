@@ -1,6 +1,10 @@
 package ctci
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+	"strings"
+)
 
 type SNode struct {
 	Data int
@@ -14,6 +18,14 @@ type DNode struct {
 
 func newSinglyLinkedList(data int) *SNode {
 	return &SNode{Data: data}
+}
+
+func newSingleFromList(data ...int) *SNode {
+	head := &SNode{Data: data[0]}
+	for _, val := range data[1:] {
+		head.Next = &SNode{Data: val}
+	}
+	return head
 }
 
 func newDoublyLinkedList(data int) *DNode {
@@ -93,4 +105,23 @@ func (d *DNode) print() {
 		data = append(data, cur.Data)
 	}
 	fmt.Println(data)
+}
+
+func (s *SNode) String() string {
+	var sb strings.Builder
+	sb.Grow(s.len())
+	for cur := s; cur != nil; cur = cur.Next {
+		sb.WriteString(strconv.Itoa(cur.Data))
+	}
+	return sb.String()
+}
+
+func (s *SNode) assertOrder(vals ...int) bool {
+	var idx int
+	for cur := s; cur != nil; cur, idx = cur.Next, idx+1 {
+		if cur.Data != vals[idx] {
+			return false
+		}
+	}
+	return true
 }
