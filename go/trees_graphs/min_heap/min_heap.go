@@ -4,8 +4,8 @@
 // is less than or equal to those of its children. It is represented as an array
 // in which the root has index 0.
 //
-// Insertion and deletion are O(logn) operations, as the heap property must be
-// maintained by traversing up or down the heap, respectively, and swapping
+// Insertion and popping are O(logn) operations, as the heap property must be
+// maintained by traversing up or down the heap, respectively, swapping
 // nodes which violate the heap property.
 package minheap
 
