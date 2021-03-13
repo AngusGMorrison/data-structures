@@ -1,3 +1,9 @@
+// Package avl implements an AVL tree, a balanced binary search tree that
+// enables search, insertion and deletion in O(logn) time.
+//
+// Better balanced than red-black trees, AVL trees require more rotations to
+// remain in balance, and so are more suited for use cases where lookup occurs
+// more often than modification.
 package avl
 
 import "fmt"
