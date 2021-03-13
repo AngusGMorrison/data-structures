@@ -47,6 +47,9 @@ func (h *MinHeap) swap(a, b int) {
 	h.heap[a], h.heap[b] = h.heap[b], h.heap[a]
 }
 
+// Insert adds a new node to the heap, preserving the heap property. The new
+// node is inserted at the bottom of the tree and is swapped upwards if smaller
+// than its parent.
 func (h *MinHeap) Insert(data int) error {
 	if h == nil {
 		return fmt.Errorf("can't insert %d into nil *MinHeap", data)
@@ -56,26 +59,31 @@ func (h *MinHeap) Insert(data int) error {
 	current := h.size // the index of the current node as we've yet to increment size
 	prnt := parent(current)
 	for h.heap[current] < h.heap[prnt] {
+		fmt.Println("parent idx: ", prnt, " parent val: ", h.heap[prnt])
 		h.swap(current, prnt)
 		current = prnt
 		prnt = parent(current)
 	}
 
-	h.size += 1
+	h.size++
 	return nil
 }
 
+// Pop removes and returns the root of the tree, preserving the heap property.
+// The removed node is replaced by the last node in the tree, which is
+// progessively swapped with its smallest child node to restore the heap.
 func (h *MinHeap) Pop() (int, error) {
 	if h == nil {
 		return 0, errors.New("can't delete from nil *MinHeap")
 	}
 
 	popped := h.heap[0]
-	h.size -= 1
+	h.size--
 	// Move the last element of the heap to the root and sift downwards to
 	// restore the heap property.
 	h.heap[0] = h.heap[h.size]
 	h.restore(0)
+
 	return popped, nil
 }
 
