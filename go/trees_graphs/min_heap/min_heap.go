@@ -1,8 +1,8 @@
 // Package minheap implements a min heap that stores integers.
 //
 // A min heap is a complete binary tree in which the value of each parent node
-// is greater than that of its children. It is represented as an array in which
-// the root has index 0.
+// is less than or equal to those of its children. It is represented as an array
+// in which the root has index 0.
 //
 // Insertion and deletion are O(logn) operations, as the heap property must be
 // maintained by traversing up or down the heap, respectively, and swapping
