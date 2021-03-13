@@ -49,7 +49,7 @@ func (h *MinHeap) swap(a, b int) {
 
 func (h *MinHeap) Insert(data int) error {
 	if h == nil {
-		return errors.New("can't insert %d into nil *MinHeap")
+		return fmt.Errorf("can't insert %d into nil *MinHeap", data)
 	}
 
 	h.heap = append(h.heap[:h.size], data)
