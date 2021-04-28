@@ -6,16 +6,16 @@ import (
 )
 
 func TestFindRoute(t *testing.T) {
-	a := NewNode("a")
-	b := NewNode("b")
-	c := NewNode("c")
-	d := NewNode("d")
-	e := NewNode("e")
-	f := NewNode("f")
-	g := NewNode("g")
+	a := NewDirectedGraphNode("a")
+	b := NewDirectedGraphNode("b")
+	c := NewDirectedGraphNode("c")
+	d := NewDirectedGraphNode("d")
+	e := NewDirectedGraphNode("e")
+	f := NewDirectedGraphNode("f")
+	g := NewDirectedGraphNode("g")
 
 	nilTestCases := []struct {
-		s, t *Node
+		s, t *DirectedGraphNode
 	}{
 		{s: nil, t: nil},
 		{s: a, t: nil},
@@ -50,7 +50,7 @@ func TestFindRoute(t *testing.T) {
 	})
 
 	t.Run("finds shortest route", func(t *testing.T) {
-		c.children = append(c.children, []*Node{d, e}...)
+		c.children = append(c.children, []*DirectedGraphNode{d, e}...)
 		d.children = append(d.children, e)
 		b.children = append(b.children, f)
 		g.children = append(g.children, d)
@@ -77,25 +77,25 @@ func TestFindRoute(t *testing.T) {
 			}
 		}()
 
-		b.children = make([]*Node, 1)
+		b.children = make([]*DirectedGraphNode, 1)
 		b.children[0] = c
-		c.children = make([]*Node, 1)
+		c.children = make([]*DirectedGraphNode, 1)
 		c.children[0] = a
 		FindRoute(a, g)
 	})
 }
 
 func TestFindRouteBidirectional(t *testing.T) {
-	a := NewBirdirecNode("a")
-	b := NewBirdirecNode("b")
-	c := NewBirdirecNode("c")
-	d := NewBirdirecNode("d")
-	e := NewBirdirecNode("e")
-	f := NewBirdirecNode("f")
-	g := NewBirdirecNode("g")
+	a := NewBirdirecGraphNode("a")
+	b := NewBirdirecGraphNode("b")
+	c := NewBirdirecGraphNode("c")
+	d := NewBirdirecGraphNode("d")
+	e := NewBirdirecGraphNode("e")
+	f := NewBirdirecGraphNode("f")
+	g := NewBirdirecGraphNode("g")
 
 	nilTestCases := []struct {
-		s, t *BidirecNode
+		s, t *BidirecGraphNode
 	}{
 		{s: nil, t: nil},
 		{s: a, t: nil},
@@ -132,10 +132,10 @@ func TestFindRouteBidirectional(t *testing.T) {
 	})
 
 	t.Run("finds shortest route", func(t *testing.T) {
-		c.children = append(c.children, []*BidirecNode{d, e}...)
+		c.children = append(c.children, []*BidirecGraphNode{d, e}...)
 		d.children = append(d.children, e)
 		d.parents = append(d.parents, c)
-		e.parents = append(e.parents, []*BidirecNode{d, c}...)
+		e.parents = append(e.parents, []*BidirecGraphNode{d, c}...)
 		b.children = append(b.children, f)
 		f.parents = append(f.parents, b)
 		g.children = append(g.children, d)
@@ -164,9 +164,9 @@ func TestFindRouteBidirectional(t *testing.T) {
 			}
 		}()
 
-		b.children = make([]*BidirecNode, 1)
+		b.children = make([]*BidirecGraphNode, 1)
 		b.children[0] = c
-		c.children = make([]*BidirecNode, 1)
+		c.children = make([]*BidirecGraphNode, 1)
 		c.children[0] = a
 		a.parents = append(a.parents, c)
 		FindRouteBidirectional(a, g)

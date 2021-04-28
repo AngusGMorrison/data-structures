@@ -11,19 +11,6 @@ import "strings"
 //
 // All solutions assume that the graph is implemented using an adjacency list.
 
-// Node represents a node in a directed graph.
-type Node struct {
-	name     string
-	children []*Node
-}
-
-func NewNode(name string) *Node {
-	return &Node{
-		name:     name,
-		children: make([]*Node, 0),
-	}
-}
-
 // FindRoute implements a breadth-first search (BFS) to find a route (if
 // present) in O(k^d) time, where k is the maximal number of neighbouring nodes
 // an d is the length of the shortest path between the two nodes. It takes
@@ -31,17 +18,17 @@ func NewNode(name string) *Node {
 // nodes comprising the shortest path between them. If no path is possible, nil
 // is returned. If the start and the end node are the same, a slice containing
 // only that node is returned.
-func FindRoute(s, t *Node) []*Node {
+func FindRoute(s, t *DirectedGraphNode) []*DirectedGraphNode {
 	if s == nil || t == nil {
 		return nil
 	}
 
 	if s == t {
-		return []*Node{s}
+		return []*DirectedGraphNode{s}
 	}
 
-	worklist := []*Node{s}
-	seen := make(map[*Node][]*Node)
+	worklist := []*DirectedGraphNode{s}
+	seen := make(map[*DirectedGraphNode][]*DirectedGraphNode)
 
 	for len(worklist) > 0 {
 		nodes := worklist
@@ -68,7 +55,7 @@ func FindRoute(s, t *Node) []*Node {
 }
 
 // RouteToString returns a string representation of a route between two nodes.
-func RouteToString(route []*Node) string {
+func RouteToString(route []*DirectedGraphNode) string {
 	sb := strings.Builder{}
 	for i, n := range route {
 		if i > 0 {
@@ -78,21 +65,6 @@ func RouteToString(route []*Node) string {
 	}
 
 	return sb.String()
-}
-
-// BidirecNode is a directed node which maintains knowledge of its parents.
-type BidirecNode struct {
-	name     string
-	children []*BidirecNode
-	parents  []*BidirecNode
-}
-
-func NewBirdirecNode(name string) *BidirecNode {
-	return &BidirecNode{
-		name:     name,
-		children: make([]*BidirecNode, 0),
-		parents:  make([]*BidirecNode, 0),
-	}
 }
 
 // FindRouteWithParents implements a bidirectional breadth-first search (BFS) to
@@ -106,24 +78,24 @@ func NewBirdirecNode(name string) *BidirecNode {
 // For a directed graph, bidirectional search is only possible if the
 // "downstream" nodes have knowledge of their parents, i.e. of the nodes with
 // edges leading to them. Clarify this assumption in the interview.
-func FindRouteBidirectional(s, t *BidirecNode) []*BidirecNode {
+func FindRouteBidirectional(s, t *BidirecGraphNode) []*BidirecGraphNode {
 	if s == nil || t == nil {
 		return nil
 	}
 
 	if s == t {
-		return []*BidirecNode{s}
+		return []*BidirecGraphNode{s}
 	}
 
 	// sSeen and tSeen record the nodes visited by the BFSs started from nodes
 	// s and t. Values are the paths taken to arrive at the keys.
-	sSeen := make(map[*BidirecNode][]*BidirecNode)
-	tSeen := make(map[*BidirecNode][]*BidirecNode)
+	sSeen := make(map[*BidirecGraphNode][]*BidirecGraphNode)
+	tSeen := make(map[*BidirecGraphNode][]*BidirecGraphNode)
 
 	// sQueue and tQueue contain the nodes whose neighbours must still be
 	// traversed.
-	sQueue := []*BidirecNode{s}
-	tQueue := []*BidirecNode{t}
+	sQueue := []*BidirecGraphNode{s}
+	tQueue := []*BidirecGraphNode{t}
 
 	// Process the queues until a route is found or one of the searches
 	// completes, at which point we know a route is impossible.
@@ -169,14 +141,14 @@ func FindRouteBidirectional(s, t *BidirecNode) []*BidirecNode {
 	return nil
 }
 
-func reverse(nodes []*BidirecNode) {
+func reverse(nodes []*BidirecGraphNode) {
 	for i, j := 0, len(nodes)-1; i < len(nodes)/2; i, j = i+1, j-1 {
 		nodes[i], nodes[j] = nodes[j], nodes[i]
 	}
 }
 
 // BidirecRouteToString returns a string representation of a route between two nodes.
-func BidirecRouteToString(route []*BidirecNode) string {
+func BidirecRouteToString(route []*BidirecGraphNode) string {
 	sb := strings.Builder{}
 	for i, n := range route {
 		if i > 0 {
