@@ -10,8 +10,8 @@ package ctci
 // heights of the branches are returned to their parents, which check for
 // balance before incrementing their own height.
 //
-// Requires O(1) space and O(n) time, as every node must be visited in the case
-// of a balanced tree.
+// Requires O(log n) space to hold the recusive calls to heightAndBalance, and
+// O(n) time, as every node must be visited in the case of a balanced tree.
 func CheckBalanced(root *BinaryTreeNode) bool {
 	_, balanced := heightAndBalance(root)
 	return balanced
