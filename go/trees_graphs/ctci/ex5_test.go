@@ -3,12 +3,12 @@ package ctci
 import "testing"
 
 func TestIsBST(t *testing.T) {
-	notBST := NewBinaryTreeNode(20, nil, nil)
-	notBST.left = NewBinaryTreeNode(10, nil, nil)
-	notBST.right = NewBinaryTreeNode(30, nil, nil)
-	notBST.left.right = NewBinaryTreeNode(25, nil, nil)
+	notBST := NewBinaryTreeNode(20, nil, nil, nil)
+	notBST.left = NewBinaryTreeNode(10, nil, nil, nil)
+	notBST.right = NewBinaryTreeNode(30, nil, nil, nil)
+	notBST.left.right = NewBinaryTreeNode(25, nil, nil, nil)
 
-	bst := NewBinaryTreeNode(50, nil, nil)
+	bst := NewBinaryTreeNode(50, nil, nil, nil)
 	bst.MassInsert(40, 60, 55, 10)
 
 	testCases := []struct {
@@ -42,12 +42,12 @@ func TestIsBST(t *testing.T) {
 }
 
 func TestIsBSTInOrder(t *testing.T) {
-	notBST := NewBinaryTreeNode(20, nil, nil)
-	notBST.left = NewBinaryTreeNode(10, nil, nil)
-	notBST.right = NewBinaryTreeNode(30, nil, nil)
-	notBST.left.right = NewBinaryTreeNode(25, nil, nil)
+	notBST := NewBinaryTreeNode(20, nil, nil, nil)
+	notBST.left = NewBinaryTreeNode(10, nil, nil, nil)
+	notBST.right = NewBinaryTreeNode(30, nil, nil, nil)
+	notBST.left.right = NewBinaryTreeNode(25, nil, nil, nil)
 
-	bst := NewBinaryTreeNode(50, nil, nil)
+	bst := NewBinaryTreeNode(50, nil, nil, nil)
 	bst.MassInsert(40, 60, 55, 10)
 
 	testCases := []struct {

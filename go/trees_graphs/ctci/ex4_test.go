@@ -11,7 +11,7 @@ func TestCheckBalanced(t *testing.T) {
 	})
 
 	t.Run("tree has single element", func(t *testing.T) {
-		root := NewBinaryTreeNode(1, nil, nil)
+		root := NewBinaryTreeNode(1, nil, nil, nil)
 		got := CheckBalanced(root)
 		if got != true {
 			t.Errorf("want true, got false")
@@ -19,7 +19,7 @@ func TestCheckBalanced(t *testing.T) {
 	})
 
 	t.Run("imbalance <= 1", func(t *testing.T) {
-		root := NewBinaryTreeNode(5, nil, nil)
+		root := NewBinaryTreeNode(5, nil, nil, nil)
 		root.Insert(1)
 		got := CheckBalanced(root)
 		if got != true {
@@ -28,7 +28,7 @@ func TestCheckBalanced(t *testing.T) {
 	})
 
 	t.Run("imbalance > 1", func(t *testing.T) {
-		root := NewBinaryTreeNode(50, nil, nil)
+		root := NewBinaryTreeNode(50, nil, nil, nil)
 		root.MassInsert(40, 30, 42, 45, 60)
 		got := CheckBalanced(root)
 		if got != false {

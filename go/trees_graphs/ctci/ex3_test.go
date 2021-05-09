@@ -15,7 +15,7 @@ func TestGenerateDepthListsRecursive(t *testing.T) {
 	})
 
 	t.Run("non-nil tree", func(t *testing.T) {
-		root := NewBinaryTreeNode(50, nil, nil)
+		root := NewBinaryTreeNode(50, nil, nil, nil)
 		root.MassInsert(30, 10, 40, 70, 60, 80)
 
 		wantNLists := 3
@@ -56,7 +56,7 @@ func TestGenerateDepthListsBFS(t *testing.T) {
 	})
 
 	t.Run("non-nil tree", func(t *testing.T) {
-		root := NewBinaryTreeNode(50, nil, nil)
+		root := NewBinaryTreeNode(50, nil, nil, nil)
 		root.MassInsert(30, 10, 40, 70, 60, 80)
 
 		wantNLists := 3

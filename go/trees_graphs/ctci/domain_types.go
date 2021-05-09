@@ -34,28 +34,33 @@ func NewBirdirecGraphNode(name string) *BidirecGraphNode {
 }
 
 type BinaryTreeNode struct {
-	data        int
-	left, right *BinaryTreeNode
+	data                int
+	left, right, parent *BinaryTreeNode
 }
 
-func NewBinaryTreeNode(data int, left, right *BinaryTreeNode) *BinaryTreeNode {
+func NewBinaryTreeNode(data int, left, right, parent *BinaryTreeNode) *BinaryTreeNode {
 	return &BinaryTreeNode{
-		data:  data,
-		left:  left,
-		right: right,
+		data:   data,
+		left:   left,
+		right:  right,
+		parent: parent,
 	}
 }
 
 // Insert inserts a node into the binary tree. Note that the binary tree is not balanced.
 func (n *BinaryTreeNode) Insert(data int) *BinaryTreeNode {
+	return n.insert(data, nil)
+}
+
+func (n *BinaryTreeNode) insert(data int, parent *BinaryTreeNode) *BinaryTreeNode {
 	if n == nil {
-		return NewBinaryTreeNode(data, nil, nil)
+		return NewBinaryTreeNode(data, nil, nil, parent)
 	}
 
-	if data < n.data {
-		n.left = n.left.Insert(data)
-	} else if data > n.data {
-		n.right = n.right.Insert(data)
+	if data <= n.data {
+		n.left = n.left.insert(data, n)
+	} else {
+		n.right = n.right.insert(data, n)
 	}
 
 	return n
