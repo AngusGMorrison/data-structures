@@ -113,3 +113,5 @@ func (ln *BinaryTreeListNode) String() string {
 
 	return sb.String()
 }
+
+type AdjacencyList map[string][]string
