@@ -36,14 +36,16 @@ func NewBirdirecGraphNode(name string) *BidirecGraphNode {
 type BinaryTreeNode struct {
 	data                int
 	left, right, parent *BinaryTreeNode
+	visited             bool
 }
 
 func NewBinaryTreeNode(data int, left, right, parent *BinaryTreeNode) *BinaryTreeNode {
 	return &BinaryTreeNode{
-		data:   data,
-		left:   left,
-		right:  right,
-		parent: parent,
+		data:    data,
+		left:    left,
+		right:   right,
+		parent:  parent,
+		visited: false,
 	}
 }
 
@@ -73,6 +75,18 @@ func (n *BinaryTreeNode) MassInsert(data ...int) *BinaryTreeNode {
 	}
 
 	return n
+}
+
+// Each iterates over each node in the binary tree in order, applying the
+// provided function.
+func (n *BinaryTreeNode) Each(fn func(n *BinaryTreeNode)) {
+	if n == nil {
+		return
+	}
+
+	n.left.Each(fn)
+	fn(n)
+	n.right.Each(fn)
 }
 
 // MapWithDepth iterates over each node in a binary tree in order, incrementing
