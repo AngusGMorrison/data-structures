@@ -27,7 +27,7 @@ func GenerateDepthListsRecursive(root *BinaryTreeNode) map[int]*BinaryTreeListNo
 	listBuilder := func(depth int, n *BinaryTreeNode) {
 		depthLists[depth] = NewBinaryTreeListNode(n, depthLists[depth])
 	}
-	root.MapWithDepth(1, listBuilder)
+	root.EachWithDepth(1, listBuilder)
 
 	return depthLists
 }

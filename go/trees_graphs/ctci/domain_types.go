@@ -89,17 +89,17 @@ func (n *BinaryTreeNode) Each(fn func(n *BinaryTreeNode)) {
 	n.right.Each(fn)
 }
 
-// MapWithDepth iterates over each node in a binary tree in order, incrementing
+// EachWithDepth iterates over each node in a binary tree in order, incrementing
 // the starting depth to reflect the current level of the tree, and applies the
 // provided function to the node.
-func (n *BinaryTreeNode) MapWithDepth(depth int, fn func(depth int, n *BinaryTreeNode)) {
+func (n *BinaryTreeNode) EachWithDepth(depth int, fn func(depth int, n *BinaryTreeNode)) {
 	if n == nil {
 		return
 	}
 
-	n.left.MapWithDepth(depth+1, fn)
+	n.left.EachWithDepth(depth+1, fn)
 	fn(depth, n)
-	n.right.MapWithDepth(depth+1, fn)
+	n.right.EachWithDepth(depth+1, fn)
 }
 
 // BinaryTreeListNode is a linked list node which holds a binary tree node as
