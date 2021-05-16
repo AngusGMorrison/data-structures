@@ -102,6 +102,18 @@ func (n *BinaryTreeNode) EachWithDepth(depth int, fn func(depth int, n *BinaryTr
 	n.right.EachWithDepth(depth+1, fn)
 }
 
+func (n *BinaryTreeNode) Sibling() *BinaryTreeNode {
+	if n == nil || n.parent == nil {
+		return nil
+	}
+
+	if n.parent.left == n {
+		return n.parent.right
+	}
+
+	return n.parent.left
+}
+
 // BinaryTreeListNode is a linked list node which holds a binary tree node as
 // data.
 type BinaryTreeListNode struct {
