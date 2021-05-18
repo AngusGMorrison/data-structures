@@ -24,7 +24,7 @@ func TreeFromSlice(arr []int) *BinaryTreeNode {
 	return root
 }
 
-func (tn *BinaryTreeNode) String() string {
+func (tn *BinaryTreeNode) PrintTree() string {
 	var sb strings.Builder
 	tn.string(0, &sb)
 	return sb.String()

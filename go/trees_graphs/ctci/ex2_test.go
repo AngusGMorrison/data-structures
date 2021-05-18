@@ -34,7 +34,7 @@ func TestTreeFromSlice(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *testing.T) {
-			got := TreeFromSlice(tc.input).String()
+			got := TreeFromSlice(tc.input).PrintTree()
 			if got != tc.want {
 				t.Errorf("want %q, got %q", tc.want, got)
 			}

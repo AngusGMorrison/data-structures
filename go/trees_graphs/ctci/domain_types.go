@@ -114,6 +114,28 @@ func (n *BinaryTreeNode) Sibling() *BinaryTreeNode {
 	return n.parent.left
 }
 
+// Children returns a slice containing the children of a BinaryTreeNode, if
+// present.
+func (n *BinaryTreeNode) Children() []*BinaryTreeNode {
+	if n == nil {
+		return nil
+	}
+
+	children := make([]*BinaryTreeNode, 0, 2)
+	if n.left != nil {
+		children = append(children, n.left)
+	}
+	if n.right != nil {
+		children = append(children, n.right)
+	}
+
+	return children
+}
+
+func (n *BinaryTreeNode) String() string {
+	return strconv.Itoa(n.data)
+}
+
 // BinaryTreeListNode is a linked list node which holds a binary tree node as
 // data.
 type BinaryTreeListNode struct {
