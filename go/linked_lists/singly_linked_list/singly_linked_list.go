@@ -40,6 +40,36 @@ func (n *Node) Delete(data int) *Node {
 	return n
 }
 
+func (n *Node) Pop() (popped *Node, head *Node) {
+	if n == nil {
+		return nil, nil
+	}
+
+	var cur, prev *Node
+	for cur, prev = n, nil; cur.Next != nil; prev, cur = cur, cur.Next {
+	}
+
+	if cur == n {
+		// Single node list; delete the head.
+		return cur, nil
+	}
+
+	prev.Next = nil
+	return cur, n
+}
+
+func (n *Node) Tail() *Node {
+	if n == nil {
+		return nil
+	}
+
+	var cur *Node
+	for cur = n; cur.Next != nil; cur = cur.Next {
+	}
+
+	return cur
+}
+
 func (n *Node) GetIndex(idx int) (int, error) {
 	cur := n
 	for i := idx; i > 0 && cur != nil; i-- {
