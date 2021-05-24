@@ -1,6 +1,8 @@
 package ctci
 
 import (
+	"container/list"
+	"fmt"
 	"sort"
 	"testing"
 )
@@ -32,6 +34,25 @@ func TestSequences(t *testing.T) {
 			},
 		},
 		{
+			desc: "right-hook fail",
+			data: []int{5, 1, 10, 15, 12},
+			want: [][]int{
+				{5, 1, 10, 15, 12},
+				{5, 10, 1, 15, 12},
+				{5, 10, 15, 1, 12},
+				{5, 10, 15, 12, 1},
+			},
+		},
+		{
+			desc: "left-hook fail",
+			data: []int{10, 5, 1, 12},
+			want: [][]int{
+				{10, 5, 1, 12},
+				{10, 5, 12, 1},
+				{10, 12, 5, 1},
+			},
+		},
+		{
 			desc: "tree is unbalanced",
 			data: []int{2, 1, 3, 10, 7, 15},
 			want: [][]int{
@@ -52,8 +73,9 @@ func TestSequences(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.desc, func(t *testing.T) {
 			tree := buildTree(tc.data)
-			gotSeqs := tree.Sequences()
+			gotSeqs := listsToSlices(tree.Sequences())
 			sortPermutations(gotSeqs)
+			fmt.Println(gotSeqs)
 
 			for i, wantSeq := range tc.want {
 				for j, wantElem := range wantSeq {
@@ -80,13 +102,32 @@ func buildTree(data []int) *BinaryTreeNode {
 	return root
 }
 
+func listsToSlices(lists []*list.List) [][]int {
+	slices := [][]int{}
+
+	for _, list := range lists {
+		slice := make([]int, 0, list.Len())
+		for cur := list.Front(); cur != nil; cur = cur.Next() {
+			slice = append(slice, cur.Value.(int))
+		}
+
+		slices = append(slices, slice)
+	}
+
+	return slices
+}
+
 func sortPermutations(perms [][]int) {
 	sort.Slice(perms, func(i, j int) bool {
 		first := perms[i]
 		second := perms[j]
 
 		for k, data := range first {
-			if second[k] < data {
+			if data < second[k] {
+				return true
+			}
+
+			if data > second[k] {
 				return false
 			}
 		}

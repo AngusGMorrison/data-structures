@@ -37,6 +37,7 @@ type BinaryTreeNode struct {
 	data                int
 	left, right, parent *BinaryTreeNode
 	visited             bool
+	size                int
 }
 
 func NewBinaryTreeNode(data int, left, right, parent *BinaryTreeNode) *BinaryTreeNode {
@@ -130,6 +131,21 @@ func (n *BinaryTreeNode) Children() []*BinaryTreeNode {
 	}
 
 	return children
+}
+
+func (n *BinaryTreeNode) Size() int {
+	if n == nil {
+		return 0
+	}
+
+	if n.size == 0 {
+		leftSize := n.left.Size()
+		rightSize := n.right.Size()
+
+		n.size = leftSize + rightSize + 1
+	}
+
+	return n.size
 }
 
 func (n *BinaryTreeNode) String() string {

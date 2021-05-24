@@ -1,62 +1,86 @@
 package ctci
 
+import (
+	"container/list"
+)
+
 // 4.9 BST Sequences: A binary search tree was created by traversing through an
 // array from left to right and inserting each element. Given a binary search
 // tree with distinct elements, print all possible arrays that could have led to
 // this tree.
 
-// The next node in a binary tree sequence may be any one of the child nodes of
-// the nodes currently in the sequence which have no been fully explored.
-//
-// Like a breadth-first search, we keep a worklist of nodes which have not yet
-// been added to the permutations. Each time a node is processed, its child
-// nodes are added to the worklist.
-func (n *BinaryTreeNode) Sequences() [][]int {
+func (n *BinaryTreeNode) Sequences() []*list.List {
+	result := []*list.List{}
+
 	if n == nil {
-		return nil
+		result = append(result, list.New())
+		return result
 	}
 
-	permutations := make([][]int, 0)
+	// Capture the current node, which must appear before its left and right
+	// subtrees in every permuation.
+	permutation := list.New()
+	permutation.PushBack(n.data)
 
-	var permute func([]*BinaryTreeNode, []int)
-	permute = func(worklist []*BinaryTreeNode, perm []int) {
-		if len(worklist) == 0 {
-			permutations = append(permutations, perm)
-			return
-		}
+	// Recurse on left and right subtrees.
+	leftSeqs := n.left.Sequences()
+	rightSeqs := n.right.Sequences()
 
-		for i, node := range worklist {
-			nextList := nextWorklist(worklist, i)
-			nextPerm := nextPermutation(perm, node)
-
-			permute(nextList, nextPerm)
+	// Weave all lists from the left and right sides together, prefixed with the
+	// current node.
+	for _, leftList := range leftSeqs {
+		for _, rightList := range rightSeqs {
+			permutations := []*list.List{}
+			weave(leftList, rightList, permutation, &permutations)
+			result = append(result, permutations...)
 		}
 	}
 
-	permute([]*BinaryTreeNode{n}, []int{})
-
-	return permutations
+	return result
 }
 
-// nextWorklist generates the next set of valid sequence nodes by copying the
-// current worklist, extracting the current node at idx and appending its
-// children to the new list.
-func nextWorklist(worklist []*BinaryTreeNode, idx int) []*BinaryTreeNode {
-	currentNode := worklist[idx]
-	nextList := make([]*BinaryTreeNode, len(worklist))
-	copy(nextList, worklist)
-	nextList = append(nextList[:idx], nextList[idx+1:]...)
-	nextList = append(nextList, currentNode.Children()...)
+// weave produces all possible permutations of two linked lists by recursively
+// removing the head of the left list and appending it to the current
+// permutation. When the left list is empty, the remainder of the second list is
+// appended. This process is then repeated with the right list.
+func weave(left, right, permutation *list.List, results *[]*list.List) {
+	// If one list is empty, clone the permutation and add the remainder of the
+	// other list to complete it, then store the result.
+	if left.Len() == 0 || right.Len() == 0 {
+		result := clone(permutation)
+		pushBackAll(result, left)
+		pushBackAll(result, right)
+		*results = append(*results, result)
+		return
+	}
 
-	return nextList
+	// Recurse with the head of left added to the permuation. Removing the head
+	// will damage left, so we need to put it back where we found it afterwards.
+	leftHead := left.Remove(left.Front()).(int)
+	permutation.PushBack(leftHead)
+	weave(left, right, permutation, results)
+	permutation.Remove(permutation.Back())
+	left.PushFront(leftHead)
+
+	// Do the same thing with the second, damaging and then restoring the list.
+	rightHead := right.Remove(right.Front()).(int)
+	permutation.PushBack(rightHead)
+	weave(left, right, permutation, results)
+	permutation.Remove(permutation.Back())
+	right.PushFront(rightHead)
 }
 
-// nextPermutation extends an unfinished permutation by appending the current
-// node's data to a copy of the slice.
-func nextPermutation(perm []int, n *BinaryTreeNode) []int {
-	next := make([]int, len(perm), len(perm)+1)
-	copy(next, perm)
-	next = append(next, n.data)
+func pushBackAll(dest, src *list.List) {
+	for cur := src.Front(); cur != nil; cur = cur.Next() {
+		dest.PushBack(cur.Value)
+	}
+}
 
-	return next
+func clone(l *list.List) *list.List {
+	dup := list.New()
+	for cur := l.Front(); cur != nil; cur = cur.Next() {
+		dup.PushBack(cur.Value)
+	}
+
+	return dup
 }
