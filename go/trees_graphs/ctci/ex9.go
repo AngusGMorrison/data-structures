@@ -8,7 +8,12 @@ import (
 // array from left to right and inserting each element. Given a binary search
 // tree with distinct elements, print all possible arrays that could have led to
 // this tree.
-
+//
+// Runtime is possibly O(2^3n). For every leftSeq (on the order of 2^n
+// permutations), we iterate over every rightSeq (also on the order of 2^n
+// permutations) and call weave, which is an O(2^n) operation. Space complexity
+// feels like O(2^n), as each time a choice of node is made, up to two more
+// choices become possible.
 func (n *BinaryTreeNode) Sequences() []*list.List {
 	result := []*list.List{}
 
@@ -43,6 +48,10 @@ func (n *BinaryTreeNode) Sequences() []*list.List {
 // removing the head of the left list and appending it to the current
 // permutation. When the left list is empty, the remainder of the second list is
 // appended. This process is then repeated with the right list.
+//
+// Approximately O(2^n) time complexity, as each recursion spawns two more
+// recursive branches. Space complexity is also O(2^n) as each finished
+// permutation is stored as a separate linked list.
 func weave(left, right, permutation *list.List, results *[]*list.List) {
 	// If one list is empty, clone the permutation and add the remainder of the
 	// other list to complete it, then store the result.
